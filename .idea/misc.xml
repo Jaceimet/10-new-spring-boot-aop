@@ -8,6 +8,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/01-spring-boot-aop-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/02-spring-boot-aop-demo-pointcut-declarations/pom.xml" />
       </list>
     </option>
   </component>
