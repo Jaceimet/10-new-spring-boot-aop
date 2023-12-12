@@ -30,6 +30,14 @@ public class AopdemoApplication {
 		theAccountDao.addAccount(myAccount, true);
 		theAccountDao.doWork();
 
+		// call the accountdao getter/setter methods
+		theAccountDao.setName("foobar");
+		theAccountDao.setServiceCode("silver");
+
+		String name = theAccountDao.getName();
+		String code = theAccountDao.getServiceCode();
+
+
 		// call the membership business method
 		theMembershipDAO.addSillyMember();
 		theMembershipDAO.goToSleep();
