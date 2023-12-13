@@ -18,7 +18,7 @@ public class MyDemoLoggingAspect {
 
     // add a new advice for @AfterReturning on the findAccounts method
     @AfterReturning(
-            pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.fineAccounts(..))",
+            pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))",
             returning = "result")
     public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result){
 
@@ -59,15 +59,6 @@ public class MyDemoLoggingAspect {
 
             }
         }
-
-
-
-
-
-
-
-
-
 
     }
 }
