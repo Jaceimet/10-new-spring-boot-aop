@@ -2,9 +2,7 @@ package com.luv2code.aopdemo.aspect;
 
 import com.luv2code.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -15,8 +13,28 @@ import java.util.List;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+    @After("execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))")
+    private void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint){
 
-    // add a new advice for @AfterReturning on the findAccounts method
+        // print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n======>>>> Executing @After (finally) on method: " + method);
+
+    }
+    @AfterThrowing(
+            pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))",
+            throwing = "theExc")
+    public void AfterThrowingFindAccountsAdvice(
+            JoinPoint theJoinPoint, Throwable theExc){
+
+        // print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n======>>>> Executing @AfterThrowing on method: " + method);
+
+        // log the exception
+        System.out.println("\n======>>>> The exception is: " + theExc);
+    }
+
     @AfterReturning(
             pointcut = "execution(* com.luv2code.aopdemo.dao.AccountDAO.findAccounts(..))",
             returning = "result")
@@ -28,6 +46,31 @@ public class MyDemoLoggingAspect {
 
         // print out the results of the method call
         System.out.println("\n======>>>> result is: " + result);
+
+
+        // lets post-process the data...modify it
+
+
+        // convert the account names to uppercase
+        convertAccountNamesToUpperCase(result);
+
+        System.out.println("\n======>>>> result is: " + result);
+
+    }
+
+    private void convertAccountNamesToUpperCase(List<Account> result) {
+
+        // loop though accounts
+        for (Account tempAccount : result) {
+
+            // get uppercase version of name
+            String theUpperName = tempAccount.getName().toUpperCase();
+
+            // update the name on the account
+            tempAccount.setName(theUpperName);
+
+
+        }
 
     }
 
